@@ -1,6 +1,25 @@
 <?php
 require "conn.php";
 
+//-----------------------------
+// Functions
+//-----------------------------
+
+function postReturn( $key, $default="" )
+{
+	if( !empty( $_POST[ $key ] ) )
+	{ 
+		return $_POST[ $key ]; 
+	} else {
+		return $default;
+	}
+}
+
+
+
+
+//-----------------------------
+
 $errors = array();
 
 if  (isset($_POST['submit']))
@@ -137,7 +156,7 @@ if( !empty( $errors ) )
 		<form method="post" action="">
 			<div class="form-group">
 				<label for="username">Username:</label> 
-				<input type="text" class="form-control" id="user" placeholder="Enter a unique Username" name="member_registration_username">
+				<input type="text" class="form-control" id="user" placeholder="Enter a unique Username" name="member_registration_username" value="<?=postReturn('member_registration_username')?>">
 			</div>
 			<div class="form-group">
 				<label for="password">Password:</label> 
@@ -149,15 +168,15 @@ if( !empty( $errors ) )
 			</div>
 			<div class="form-group">
 				<label for="forename">First Name:</label> 
-				<input type="text" class="form-control" id="member_registration_first_name" placeholder="Enter your First Name" name="member_registration_forename">
+				<input type="text" class="form-control" id="member_registration_first_name" placeholder="Enter your First Name" name="member_registration_forename" value="<?=postReturn('member_registration_forename')?>">
 			</div>
 			<div class="form-group">
 				<label for="surname">Surname:</label> 
-				<input type="text" class="form-control" id="member_registration_last_name" placeholder="Enter your Surname" name="member_registration_surname">
+				<input type="text" class="form-control" id="member_registration_last_name" placeholder="Enter your Surname" name="member_registration_surname" value="<?=postReturn('member_registration_surname')?>">
 			</div>
 			<div class="form-group">
 				<label for="email">Email:</label> 
-				<input type="email" class="form-control" id="member_registration_email" placeholder="Enter your Email" name="member_registration_email">
+				<input type="email" class="form-control" id="member_registration_email" placeholder="Enter your Email" name="member_registration_email" value="<?=postReturn('member_registration_email')?>">
 			</div>
 			<div class="form-group">
 				<label for="email">Repeat Email:</label> 
