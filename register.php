@@ -9,7 +9,7 @@ function postReturn( $key, $default="" )
 {
 	if( !empty( $_POST[ $key ] ) )
 	{ 
-		return $_POST[ $key ]; 
+		return htmlspecialchars( $_POST[ $key ], ENT_QUOTES );
 	} else {
 		return $default;
 	}
