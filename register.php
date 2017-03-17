@@ -145,7 +145,7 @@ if( !empty( $errors ) )
 	echo "<h3>There were problems with the information you provided:</h3>";
 	// I usually have an arrayToList function for this next part.
 	echo "<ul>";
-	foreach( $error as $e )
+	foreach( $errors as $e )
 	{
 		echo "<li>$e</li>";
 	}
