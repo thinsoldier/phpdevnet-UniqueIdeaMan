@@ -72,18 +72,7 @@ if  (isset($_POST['submit']))
             #exit;
         
         // Create plain variables for use in the error checking logic below.
-        // You could have just used extract( $data ) to do this
-        // or used the $data array keys in the error checking code instead of
-        // normal variables
-        $member_registration_username = $data["member_registration_username"];
-        $member_registration_forename = $data["member_registration_forename"];
-        $member_registration_surname  = $data["member_registration_surname"];
-        $member_registration_password = $data["member_registration_password"];
-        $member_registration_email    = $data["member_registration_email"];
-        $member_registration_password_confirmation   = $data["member_registration_password_confirmation"];
-        $member_registration_email_confirmation      = $data["member_registration_email_confirmation"];
-        $member_registration_account_activation      = $data["member_registration_account_activation"];
-        $member_registration_account_activation_code = $data["member_registration_account_activation_code"];
+        extract( $data );
 
         // Form Error Checking:
         if($member_registration_email != $member_registration_email_confirmation)
