@@ -62,7 +62,7 @@ if  (isset($_POST['submit']))
         foreach( $data as $key => $raw_value )
         {
             $trimmed_value = trim( $raw_value );
-            $escaped_value = mysqli_real_escape_string( $conn, $trimmed_value );
+            $escaped_value = fake_mysqli_real_escape_string( $conn, $trimmed_value );
             $data[ $key ]  = $escaped_value;
         }
         
@@ -84,7 +84,7 @@ if  (isset($_POST['submit']))
         {
             $errors[] = "Your password inputs do not match! Try inputting again and then re-submit.";
         }
-        
+/*        
         $sql_check_username_in_pending_users = "SELECT * FROM pending_users WHERE Username='".$member_registration_username."'";
         $result_username_in_pending_users = mysqli_query($conn,$sql_check_username_in_pending_users);
         if(mysqli_num_rows($result_username_in_pending_users)>0)
@@ -133,7 +133,7 @@ if  (isset($_POST['submit']))
         $message = "from: $from";
 
         mail($to,$subject,$body,$message);
-        
+*/        
         echo '<h1 id="super big success message">Check your email for further instructions!</h1>';
         exit; // Don't allow the form to show again after successful signup.
     }
