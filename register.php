@@ -33,28 +33,59 @@ if  (isset($_POST['submit']))
         && !empty($_POST["member_registration_surname"])
     )
     {
-        $member_registration_account_activation = 0;
-        $member_registration_random_numbers = random_int(0, 9999999999);
+        // List of the fields from $_POST that are allowed to enter the database:
+        $allowed_fields = array(
+            'member_registration_username',
+            'member_registration_forename',
+            'member_registration_surname',
+            'member_registration_password',
+            'member_registration_password_confirmation',
+            'member_registration_email',
+            'member_registration_email_confirmation',
+        );
         
-        $member_registration_username = trim($_POST["member_registration_username"]);
-        $member_registration_forename = trim($_POST["member_registration_forename"]);
-        $member_registration_surname  = trim($_POST["member_registration_surname"]);
-        $member_registration_password = trim($_POST["member_registration_password"]);
-        $member_registration_password_confirmation = trim($_POST["member_registration_password_confirmation"]);
-        $member_registration_email    = trim($_POST["member_registration_email"]);
-        $member_registration_email_confirmation    = trim($_POST["member_registration_email_confirmation"]);
+        // $data will contain values from post but only if they are allowed
+        $data = array();
+        foreach( $allowed_fields as $key => $postKey )
+        {
+            $data[ $postKey ] = $_POST[ $postKey ];
+        }
+        
+        
+        // Add other values to data that did not come from post:
+        $data['member_registration_account_activation'] = 0;
+        
+        $data['member_registration_account_activation_code'] = random_int(0, 9999999999);
 
-        $member_registration_account_activation_code = trim("$member_registration_random_numbers");      
+        
+        // $data will now contain values that have all been trimmed and escaped
+        foreach( $data as $key => $raw_value )
+        {
+            $trimmed_value = trim( $raw_value );
+            $escaped_value = mysqli_real_escape_string( $conn, $trimmed_value );
+            $data[ $key ]  = $escaped_value;
+        }
+        
+        # compare contents of post versus $data:
+            #var_dump($_POST);
+            #var_dump($data);
+            #exit;
+        
+        // Create plain variables for use in the error checking logic below.
+        // You could have just used extract( $data ) to do this
+        // or used the $data array keys in the error checking code instead of
+        // normal variables
+        $member_registration_username = $data["member_registration_username"];
+        $member_registration_forename = $data["member_registration_forename"];
+        $member_registration_surname  = $data["member_registration_surname"];
+        $member_registration_password = $data["member_registration_password"];
+        $member_registration_email    = $data["member_registration_email"];
+        $member_registration_password_confirmation   = $data["member_registration_password_confirmation"];
+        $member_registration_email_confirmation      = $data["member_registration_email_confirmation"];
+        $member_registration_account_activation      = $data["member_registration_account_activation"];
+        $member_registration_account_activation_code = $data["member_registration_account_activation_code"];
 
-        $member_registration_username = mysqli_real_escape_string($conn,$_POST["member_registration_username"]);
-        $member_registration_forename = mysqli_real_escape_string($conn,$_POST["member_registration_forename"]);
-        $member_registration_surname  = mysqli_real_escape_string($conn,$_POST["member_registration_surname"]);
-        $member_registration_password = mysqli_real_escape_string($conn,$_POST["member_registration_password"]);
-        $member_registration_password_confirmation = mysqli_real_escape_string($conn,$_POST["member_registration_password_confirmation"]);
-        $member_registration_email = mysqli_real_escape_string($conn,$_POST["member_registration_email"]);
-        $member_registration_email_confirmation = mysqli_real_escape_string($conn,$_POST["member_registration_email_confirmation"]);       
-        $member_registration_account_activation_code = mysqli_real_escape_string($conn,$member_registration_account_activation_code);    
-               
+        // Form Error Checking:
         if($member_registration_email != $member_registration_email_confirmation)
         {
             $errors[] = "Your email inputs do not match! Try inputting again and then re-submit.";
