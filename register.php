@@ -1,5 +1,8 @@
 <?php
 require "conn.php";
+
+$errors = array();
+
 if  (isset($_POST['submit']))
 {
     if(    !empty($_POST["member_registration_username"]) 
@@ -35,50 +38,40 @@ if  (isset($_POST['submit']))
                
         if($member_registration_email != $member_registration_email_confirmation)
         {
-            echo "Your email inputs do not match! Try inputting again and then re-submit.";
-            $conn->close();
-            exit();
+            $errors[] = "Your email inputs do not match! Try inputting again and then re-submit.";
         }
-        else{ }
 
         if($member_registration_password != $member_registration_password_confirmation)
         {
-            echo "Your password inputs do not match! Try inputting again and then re-submit.";
-            $conn->close();
-            exit();
+            $errors[] = "Your password inputs do not match! Try inputting again and then re-submit.";
         }
-        else{ }
         
         $sql_check_username_in_pending_users = "SELECT * FROM pending_users WHERE Username='".$member_registration_username."'";
         $result_username_in_pending_users = mysqli_query($conn,$sql_check_username_in_pending_users);
         if(mysqli_num_rows($result_username_in_pending_users)>0)
         {
-            echo "<script>alert('That Username $member_registration_username is pending registration!')</script>";
-            exit();
+            $errors[] = "That Username $member_registration_username is pending registration!";
         }
                        
         $sql_check_username_in_users = "SELECT * FROM users WHERE Username='".$member_registration_username."'";
         $result_username_in_users = mysqli_query($conn,$sql_check_username_in_users);
         if(mysqli_num_rows($result_username_in_users)>0)
         {
-            echo "<script>alert('That Username $member_registration_username is already registered!')</script>";
-            exit();
+            $errors[] = "That Username $member_registration_username is already registered!";
         }
 
         $sql_check_email_in_pending_users = "SELECT * FROM pending_users WHERE Email='".$member_registration_email."'";
         $result_email_in_pending_users = mysqli_query($conn,$sql_check_email_in_pending_users);
         if(mysqli_num_rows($result_email_in_pending_users)>0)
         {
-            echo "<script>alert('That Email $member_registration_email is pending registration!')</script>";
-            exit();
+            $errors[] = "That Email $member_registration_email is pending registration!";
         }
 
         $sql_check_email_in_users = "SELECT * FROM users WHERE Email='".$member_registration_email."'";
         $result_email_in_users = mysqli_query($conn,$sql_check_email_in_users);
         if(mysqli_num_rows($result_email_in_users)>0)
         {
-            echo "<script>alert('That Email $member_registration_email is already registered!')</script>";
-            exit();
+            $errors[] = "That Email $member_registration_email is already registered!";
         }
 
         $sql = "INSERT INTO pending_users(Username,Password,Email,Forename,Surname,Account_Activation_Code,Account_Activation) VALUES('".$member_registration_username."','".$member_registration_password."','".$member_registration_email."','".$member_registration_forename."','".$member_registration_surname."','".$member_registration_account_activation_code."','".$member_registration_account_activation."')";
@@ -101,13 +94,13 @@ if  (isset($_POST['submit']))
         $message = "from: $from";
 
         mail($to,$subject,$body,$message);
-        echo "<script>alert('Check your email for further instructions!')</script>";
-        $conn->close();
+        
+        echo '<h1 id="super big success message">Check your email for further instructions!</h1>';
+        exit; // Don't allow the form to show again after successful signup.
     }
     else
     {
-        echo "<script>alert('You must fill-in all input fields!')</script>";
-        $conn->close();
+        $errors[] = "You must fill-in all input fields!";
     }
 }
 
@@ -126,6 +119,21 @@ if  (isset($_POST['submit']))
 		<h2>
 			Loud Gobs Browser Signup Form
 		</h2>
+		
+<?
+if( !empty( $errors ) )
+{
+	echo "<h3>There were problems with the information you provided:</h3>";
+	// I usually have an arrayToList function for this next part.
+	echo "<ul>";
+	foreach( $error as $e )
+	{
+		echo "<li>$e</li>";
+	}
+	echo "</ul>";
+}
+?>
+		
 		<form method="post" action="">
 			<div class="form-group">
 				<label for="username">Username:</label> 
