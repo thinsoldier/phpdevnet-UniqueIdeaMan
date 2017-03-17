@@ -9,41 +9,43 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class = "container">
-<center><h2>Loud Gobs Browser Signup Form</h2></center>
-<form method="post" action="">
-<div class="form-group">
-<center><label for="username">Username:</label>
-<input type="text" class="form-control" id="user" placeholder="Enter a unique Username" name="member_registration_username"></center>
-</div>
-<div class="form-group">
-<center><label for="password">Password:</label>
-<input type="password" class="form-control" id="pwd" placeholder="Enter new Password" name="member_registration_password"></center>
-</div>
-<div class="form-group">
-<center><label for="password">Repeat Password:</label>
-<input type="password" class="form-control" id="member_registration_repeat_pwd" placeholder="Repeat new Password" name="member_registration_password_confirmation"></center>
-</div>
-<div class="form-group">
-<center><label for="forename">First Name:</label>
-<input type="text" class="form-control" id="member_registration_first_name" placeholder="Enter your First Name" name="member_registration_forename"></center>
-</div>
-<div class="form-group">
-<center><label for="surname">Surname:</label>
-<input type="text" class="form-control" id="member_registration_last_name" placeholder="Enter your Surname" name="member_registration_surname"></center>
-</div>
-<div class="form-group">
-<center><label for="email">Email:</label>
-<input type="email" class="form-control" id="member_registration_email" placeholder="Enter your Email" name="member_registration_email"></center>
-</div>
-<div class="form-group">
-<center><label for="email">Repeat Email:</label>
-<input type="email" class="form-control" id="member_registration_repeat_email" placeholder="Repeat your Email" name="member_registration_email_confirmation"></center>
-</div>
-<center><button type="submit" class="btn btn-default" name="submit">Register!</button></center>
-<center><font color="red" size="3"><b>Already have an account ?</b><br><a href="login.php">Login here!</a></font></center>
-</form>
-</div>
+	<div class="container">
+		<h2>
+			Loud Gobs Browser Signup Form
+		</h2>
+		<form method="post" action="">
+			<div class="form-group">
+				<label for="username">Username:</label> 
+				<input type="text" class="form-control" id="user" placeholder="Enter a unique Username" name="member_registration_username">
+			</div>
+			<div class="form-group">
+				<label for="password">Password:</label> 
+				<input type="password" class="form-control" id="pwd" placeholder="Enter new Password" name="member_registration_password">
+			</div>
+			<div class="form-group">
+				<label for="password">Repeat Password:</label> 
+				<input type="password" class="form-control" id="member_registration_repeat_pwd" placeholder="Repeat new Password" name="member_registration_password_confirmation">
+			</div>
+			<div class="form-group">
+				<label for="forename">First Name:</label> 
+				<input type="text" class="form-control" id="member_registration_first_name" placeholder="Enter your First Name" name="member_registration_forename">
+			</div>
+			<div class="form-group">
+				<label for="surname">Surname:</label> 
+				<input type="text" class="form-control" id="member_registration_last_name" placeholder="Enter your Surname" name="member_registration_surname">
+			</div>
+			<div class="form-group">
+				<label for="email">Email:</label> 
+				<input type="email" class="form-control" id="member_registration_email" placeholder="Enter your Email" name="member_registration_email">
+			</div>
+			<div class="form-group">
+				<label for="email">Repeat Email:</label> 
+				<input type="email" class="form-control" id="member_registration_repeat_email" placeholder="Repeat your Email" name="member_registration_email_confirmation">
+			</div>
+			<button type="submit" class="btn btn-default" name="submit">Register!</button> <b>Already have an account ?</b><br>
+			<a href="login.php">Login here!</a> 
+		</form>
+	</div>
 </body>
 </html>
 <?php
@@ -76,7 +78,7 @@ if  (isset($_POST['submit']))
                
                 if($member_registration_email != $member_registration_email_confirmation)
                 {
-            echo "<center>Your email inputs do not match! Try inputting again and then re-submit.</center>";
+            echo "Your email inputs do not match! Try inputting again and then re-submit.";
             $conn->close();
                 exit();
         }
@@ -85,7 +87,7 @@ if  (isset($_POST['submit']))
         }
         if($member_registration_password != $member_registration_password_confirmation)
                 {
-            echo "<center>Your password inputs do not match! Try inputting again and then re-submit.</center>";
+            echo "Your password inputs do not match! Try inputting again and then re-submit.";
             $conn->close();
                 exit();
         }
